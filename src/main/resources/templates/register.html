@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #1b120c;
+            color: white;
+        }
+        .feedback {
+            padding: 70px 0;
+        }
+        .feedback h2 {
+            text-align: center;
+            font-weight: 500;
+            font-size: 30px;
+        }
+        .feedback p {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .feedback form {
+            margin: 80px auto;
+            width: 600px;
+        }
+        .feedback form .inline {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .feedback form .inline > div {
+            width: 100%;
+        }
+        .feedback form label {
+            color: #ccc;
+            font-size: 14px;
+        }
+        .feedback form input {
+            background: #2c2420;
+            border-radius: 10px;
+            border: 0.6px solid #cecece;
+            width: 100%;
+            padding: 15px 10px;
+            outline: none;
+            color: #fff;
+            margin-top: 7px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .feedback form .one-line {
+            width: 100%;
+        }
+        .feedback form button {
+            background: #DC7000;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 0;
+            transition: all 500ms ease;
+            font-size: 18px;
+            float: right;
+        }
+        .feedback form button:hover {
+            cursor: pointer;
+            background: #ca310b;
+            transform: scale(1.1);
+        }
+        .message {
+            text-align: center;
+            margin-top: -40px;
+            margin-bottom: 30px;
+            font-size: 15px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .message.error {
+            background: #5b1c1c;
+            color: #ffd4d4;
+        }
+        .message.success {
+            background: #1c5b2c;
+            color: #d4ffd8;
+        }
+    </style>
+</head>
+
+<body>
+<div class="feedback">
+    <div class="container">
+        <h2>Реєстрація</h2>
+        <p>Будь ласка, заповніть форму нижче, щоб створити обліковий запис</p>
+
+        <!-- Повідомлення про помилку -->
+        <div class="message error" th:if="${error}" th:text="${error}"></div>
+
+        <!-- Повідомлення про успіх -->
+        <div class="message success" th:if="${param.success}" th:text="'Реєстрація успішна. Увійдіть у свій акаунт'"></div>
+
+        <form th:action="@{/auth/register-form}" method="post">
+            <div class="inline">
+                <div>
+                    <label>Користувацьке ім'я</label>
+                    <input type="text" name="username" required>
+                </div>
+
+                <div>
+                    <label>Ім'я та прізвище</label>
+                    <input type="text" name="fullName">
+                </div>
+            </div>
+
+            <label>Електронна пошта</label>
+            <input type="email" class="one-line" name="email">
+
+            <label>Пароль</label>
+            <input type="password" class="one-line" name="password" required>
+
+            <button type="submit">Зареєструватися</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #1b120c;
+            color: white;
+        }
+
+        .feedback {
+            padding: 70px 0;
+        }
+
+        .feedback h2 {
+            text-align: center;
+            font-weight: 500;
+            font-size: 30px;
+        }
+
+        .feedback p {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .feedback form {
+            margin: 60px auto 0;
+            width: 400px;
+        }
+
+        .feedback form label {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .feedback form input {
+            background: #2c2420;
+            border-radius: 10px;
+            border: 0.6px solid #cecece;
+            width: 100%;
+            padding: 15px 10px;
+            outline: none;
+            color: #fff;
+            margin-top: 7px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .centered-button {
+            display: flex;
+            justify-content: center;
+        }
+
+        .feedback form button {
+            background: #DC7000;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 0;
+            transition: all 500ms ease;
+            font-size: 18px;
+        }
+
+        .feedback form button:hover {
+            cursor: pointer;
+            background: #ca310b;
+            transform: scale(1.1);
+        }
+
+        .google-login-wrapper {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .google-login-button {
+            background: #DC7000;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 0;
+            transition: all 500ms ease;
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .google-login-button:hover {
+            cursor: pointer;
+            background: #ca310b;
+            transform: scale(1.1);
+        }
+
+        .message {
+            max-width: 400px;
+            margin: 10px auto;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .message.error {
+            background: #5b1c1c;
+            color: #ffd4d4;
+        }
+
+        .message.success {
+            background: #1c5b2c;
+            color: #d4ffd8;
+        }
+
+        .or-separator {
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+<div class="feedback">
+    <div class="container">
+        <h2>Вхід</h2>
+        <p>Будь ласка, введіть логін та пароль для входу</p>
+
+        <!-- Повідомлення про помилку -->
+        <div class="message error" th:if="${error}" th:text="${error}"></div>
+
+        <!-- Повідомлення про успіх -->
+        <div class="message success" th:if="${success}" th:text="${success}"></div>
+
+        <form method="post" action="/auth/login-form">
+            <label>Користувацьке ім'я</label>
+            <input type="text" name="username" required>
+
+            <label>Пароль</label>
+            <input type="password" name="password" required>
+
+            <div class="centered-button">
+                <button type="submit">Увійти</button>
+            </div>
+        </form>
+
+        <div class="or-separator">
+            <p>Або</p>
+        </div>
+
+        <div class="google-login-wrapper">
+            <a href="/oauth2/authorization/google" class="google-login-button">
+                Увійти через Google
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
