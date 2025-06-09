@@ -26,7 +26,6 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
-    //  реєстрація
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<String>> register(@Valid @RequestBody UserRegistrationRequest request) {
         try {
@@ -59,7 +58,6 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(new AuthResponse(token)));
     }
 
-    // HTML логін з форми
     @PostMapping("/login-form")
     public String loginFromForm(@RequestParam String username,
                                 @RequestParam String password,
@@ -80,14 +78,13 @@ public class AuthController {
         Cookie jwtCookie = new Cookie("jwt", token);
         jwtCookie.setHttpOnly(true);
         jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(24 * 60 * 60); // 1 день
+        jwtCookie.setMaxAge(24 * 60 * 60);
 
         response.addCookie(jwtCookie);
 
         return "redirect:/";
     }
 
-    // HTML реєстрація з форми
     @PostMapping("/register-form")
     public String registerFromForm(@RequestParam String username,
                                    @RequestParam String password,
@@ -108,11 +105,9 @@ public class AuthController {
 
         userService.saveUser(user);
 
-        // Після успішної реєстрації редіректимо на сторінку входу з параметром
         return "redirect:/auth/login?registered=1";
     }
 
-    // GET форми логіну
     @GetMapping("/login")
     public String showLoginForm(@RequestParam(required = false) String registered,
                                 @RequestParam(required = false) String error,
@@ -126,7 +121,6 @@ public class AuthController {
         return "login";
     }
 
-    // GET форми реєстрації
     @GetMapping("/register")
     public String showRegisterForm() {
         return "register";

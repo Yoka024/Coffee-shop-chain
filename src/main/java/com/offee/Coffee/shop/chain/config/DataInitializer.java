@@ -20,7 +20,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Створюємо тестову кав'ярню (якщо ще немає)
         if (cafeRepository.count() == 0) {
             Cafe cafe = new Cafe();
             cafe.setName("Central Coffee");
@@ -28,7 +27,6 @@ public class DataInitializer implements CommandLineRunner {
             cafe.setPhone("+380123456789");
             cafeRepository.save(cafe);
 
-            // Додаємо елементи меню
             MenuItem espresso = new MenuItem();
             espresso.setName("Еспресо");
             espresso.setPrice(45.0);
@@ -50,9 +48,9 @@ public class DataInitializer implements CommandLineRunner {
             croissant.setCafe(cafe);
             menuItemRepository.save(croissant);
 
-            System.out.println("✅ Створено тестову кав'ярню з елементами меню");
+            System.out.println(" Створено тестову кав'ярню з елементами меню");
         }
 
-        System.out.println("🎉 Додаток готовий! Зареєструйтеся та увійдіть для доступу до дашборду.");
+        System.out.println(" Додаток готовий! Зареєструйтеся та увійдіть для доступу до дашборду.");
     }
 }

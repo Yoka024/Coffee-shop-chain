@@ -13,7 +13,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model) {
-        // Отримуємо інформацію про авторизацію
+        // тримуємо інформацію про авторизацію
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean isAuthenticated = authentication != null && authentication.isAuthenticated()
                 && !"anonymousUser".equals(authentication.getPrincipal());
@@ -21,11 +21,11 @@ public class IndexController {
         model.addAttribute("isAuthenticated", isAuthenticated);
 
         if (isAuthenticated) {
-            // Якщо користувач авторизований — додаємо його ім'я
+            //  користувач авторизований — додаємо його ім'я
             String username = authentication.getName();
             model.addAttribute("username", username);
         }
 
-        return "index"; // index.html в папці templates
+        return "index";
     }
 }

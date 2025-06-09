@@ -73,7 +73,6 @@ public class JwtFilter extends OncePerRequestFilter {
                     }
                 }
             } catch (Exception e) {
-                // Якщо JWT токен невалідний, просто ігноруємо
             }
         }
 

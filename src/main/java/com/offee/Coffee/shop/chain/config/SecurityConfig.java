@@ -39,32 +39,30 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                // Дозволити framing для H2 консолі
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.sameOrigin())
                 )
 
                 // Google OAuth2 login
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/auth/login") // спільна сторінка логіну
-                        .defaultSuccessUrl("/", true) // після успіху — на головну
+                        .loginPage("/auth/login")
+                        .defaultSuccessUrl("/", true)
                 )
 
-                // Форма логіну
                 .formLogin(form -> form
-                        .loginPage("/auth/login")               // GET: форма логіну
-                        .loginProcessingUrl("/auth/login-form") // POST: логін
-                        .defaultSuccessUrl("/", true)           // після входу
-                        .failureUrl("/auth/login?error=true")   // у разі помилки
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login-form")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/auth/login?error=true")
                         .permitAll()
                 )
 
-                // Змішана стратегія: сесії для HTML форм, JWT для API
+                // мішана стратегія сесії для HTML форм, JWT для API
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
 
-                // Логаут
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/auth/login?logout=true")
@@ -73,7 +71,6 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new org.springframework.security.web.util.matcher.AntPathRequestMatcher("/logout", "GET"))
                 )
 
-                // JWT-фільтр перед стандартною автентифікацією
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

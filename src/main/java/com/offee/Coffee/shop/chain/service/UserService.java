@@ -19,7 +19,6 @@ public class UserService implements UserDetailsService {
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Якщо ролі не встановлені, призначаємо роль USER за замовчуванням
         if (user.getRoles() == null || user.getRoles().isEmpty()) {
             user.setRoles(Set.of("ROLE_USER"));
         }

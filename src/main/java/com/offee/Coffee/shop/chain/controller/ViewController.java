@@ -25,8 +25,6 @@ public class ViewController {
         this.menuItemRepository = menuItemRepository;
     }
 
-    // Видалено, тому що ці маршрути тепер обробляються в AuthController
-
     @GetMapping("/dashboard")
     public String dashboard(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         List<Cafe> cafes = cafeRepository.findAll();

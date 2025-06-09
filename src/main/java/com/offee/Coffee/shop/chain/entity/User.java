@@ -28,10 +28,10 @@ public class User implements UserDetails {
     private String password;
 
     @Column
-    private String fullName; // ✅ Додано
+    private String fullName;
 
     @Column
-    private String email; // ✅ Додано
+    private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
@@ -72,19 +72,19 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public String getFullName() { // ✅ Гетер
+    public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(String fullName) { // ✅ Сетер
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public String getEmail() { // ✅ Гетер
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) { // ✅ Сетер
+    public void setEmail(String email) {
         this.email = email;
     }
 

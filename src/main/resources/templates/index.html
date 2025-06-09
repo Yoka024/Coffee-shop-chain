@@ -87,7 +87,6 @@
 <div class="main-box">
     <h1>Coffee Shop</h1>
 
-    <!-- Для неавторизованих користувачів -->
     <div th:unless="${isAuthenticated}" style="text-align: center; margin-top: 30px;">
         <p style="font-size: 18px; margin-bottom: 30px;">
             Ласкаво просимо до нашої мережі кав'ярень!
@@ -100,7 +99,6 @@
         </div>
     </div>
 
-    <!-- Для авторизованих користувачів -->
     <div class="welcome" th:if="${isAuthenticated}">
         Вітаємо, <strong th:text="${username}">Користувач</strong>! <br>
         Ви успішно увійшли до системи.
