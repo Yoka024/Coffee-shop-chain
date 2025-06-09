@@ -33,9 +33,15 @@ public class SecurityConfig {
                                 "/", "/auth/**", "/login", "/register",
                                 "/css/**", "/js/**", "/images/**",
                                 "/oauth2/**", "/login/oauth2/**",
-                                "/log-test" // <-- ось доданий відкритий маршрут
+                                "/h2-console/**", "/h2-console",
+                                "/log-test"
                         ).permitAll()
                         .anyRequest().authenticated()
+                )
+
+                // Дозволити framing для H2 консолі
+                .headers(headers -> headers
+                        .frameOptions(frameOptions -> frameOptions.sameOrigin())
                 )
 
                 // Google OAuth2 login
@@ -53,9 +59,9 @@ public class SecurityConfig {
                         .permitAll()
                 )
 
-                // Stateless (без сесій)
+                // Змішана стратегія: сесії для HTML форм, JWT для API
                 .sessionManagement(sess -> sess
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
 
                 // Логаут
@@ -64,6 +70,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/auth/login?logout=true")
                         .deleteCookies("jwt")
                         .permitAll()
+                        .logoutRequestMatcher(new org.springframework.security.web.util.matcher.AntPathRequestMatcher("/logout", "GET"))
                 )
 
                 // JWT-фільтр перед стандартною автентифікацією

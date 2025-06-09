@@ -17,6 +17,7 @@ public class Cafe {
     private String name;
     private String address;
     private String city;
+    private String phone;
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -52,6 +53,14 @@ public class Cafe {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public List<MenuItem> getMenuItems() {

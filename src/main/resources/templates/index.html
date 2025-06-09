@@ -87,6 +87,20 @@
 <div class="main-box">
     <h1>Coffee Shop</h1>
 
+    <!-- Для неавторизованих користувачів -->
+    <div th:unless="${isAuthenticated}" style="text-align: center; margin-top: 30px;">
+        <p style="font-size: 18px; margin-bottom: 30px;">
+            Ласкаво просимо до нашої мережі кав'ярень!
+        </p>
+        <div class="actions">
+            <a href="/auth/login" class="btn btn-dashboard">Увійти</a>
+            <a href="/auth/register" class="btn btn-dashboard" style="background: #6e1e1e;">
+                Зареєструватися
+            </a>
+        </div>
+    </div>
+
+    <!-- Для авторизованих користувачів -->
     <div class="welcome" th:if="${isAuthenticated}">
         Вітаємо, <strong th:text="${username}">Користувач</strong>! <br>
         Ви успішно увійшли до системи.
@@ -94,14 +108,10 @@
 
     <div class="actions" th:if="${isAuthenticated}">
         <a href="/dashboard" class="btn btn-dashboard">Перейти до панелі</a>
-
-        <form action="/logout" method="post" style="display: inline;">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <button type="submit" class="btn btn-logout">Вийти</button>
-        </form>
+        <a href="/logout" class="btn btn-logout">Вийти</a>
     </div>
-
 </div>
+
 
 </body>
 </html>

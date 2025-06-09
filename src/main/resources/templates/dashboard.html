@@ -198,10 +198,7 @@
 
     <div class="navigation">
         <a href="/" class="btn btn-home">← На головну</a>
-        <form action="/logout" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <button type="submit" class="btn btn-logout">Вийти</button>
-        </form>
+        <a href="/logout" class="btn btn-logout">Вийти</a>
     </div>
 </div>
 </body>

@@ -25,25 +25,7 @@ public class ViewController {
         this.menuItemRepository = menuItemRepository;
     }
 
-    @GetMapping("/")
-    public String index(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        boolean isAuthenticated = userDetails != null;
-
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        model.addAttribute("username", isAuthenticated ? userDetails.getUsername() : "Гість");
-
-        return "index";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "register";
-    }
+    // Видалено, тому що ці маршрути тепер обробляються в AuthController
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, @AuthenticationPrincipal UserDetails userDetails) {

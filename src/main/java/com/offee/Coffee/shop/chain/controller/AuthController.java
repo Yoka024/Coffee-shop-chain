@@ -1,16 +1,20 @@
 package com.offee.Coffee.shop.chain.controller;
 
+import com.offee.Coffee.shop.chain.dto.*;
 import com.offee.Coffee.shop.chain.entity.User;
 import com.offee.Coffee.shop.chain.service.UserService;
+
 import com.offee.Coffee.shop.chain.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -24,25 +28,35 @@ public class AuthController {
 
     //  реєстрація
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
-        userService.saveUser(user);
-        return ResponseEntity.ok("User registered successfully");
+    public ResponseEntity<ApiResponse<String>> register(@Valid @RequestBody UserRegistrationRequest request) {
+        try {
+            User user = new User();
+            user.setUsername(request.getUsername());
+            user.setPassword(request.getPassword());
+            user.setFullName(request.getFullName());
+            user.setEmail(request.getEmail());
+
+            userService.saveUser(user);
+            return ResponseEntity.ok(ApiResponse.success("User registered successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("Registration failed: " + e.getMessage()));
+        }
     }
 
     //  логін (JSON + JWT)
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody AuthRequest request) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
         } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(401).body("Invalid username or password");
+            return ResponseEntity.status(401).body(ApiResponse.error("Invalid username or password"));
         }
 
-        final UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
+        final UserDetails userDetails = userService.loadUserByUsername(request.getUsername());
         final String token = jwtUtil.generateToken(userDetails.getUsername());
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(ApiResponse.success(new AuthResponse(token)));
     }
 
     // HTML логін з форми
@@ -95,12 +109,26 @@ public class AuthController {
         userService.saveUser(user);
 
         // Після успішної реєстрації редіректимо на сторінку входу з параметром
-        return "redirect:/login?registered=1";
+        return "redirect:/auth/login?registered=1";
     }
 
-    //  форми логіну
+    // GET форми логіну
     @GetMapping("/login")
-    public String showLoginForm() {
-        return "login"; // login.html
+    public String showLoginForm(@RequestParam(required = false) String registered,
+                                @RequestParam(required = false) String error,
+                                Model model) {
+        if ("1".equals(registered)) {
+            model.addAttribute("success", "Реєстрація успішна! Тепер ви можете увійти в систему");
+        }
+        if ("true".equals(error)) {
+            model.addAttribute("error", "Невірний логін або пароль");
+        }
+        return "login";
+    }
+
+    // GET форми реєстрації
+    @GetMapping("/register")
+    public String showRegisterForm() {
+        return "register";
     }
 }
