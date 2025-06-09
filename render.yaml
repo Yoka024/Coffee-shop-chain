@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: coffee-shop-api
+    runtime: docker
+    plan: free
+    buildCommand: ./mvnw clean package -DskipTests
+    dockerCommand: java -Dserver.port=$PORT -jar app.jar
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://dpg-d13ap2umcj7s739euba0-a:5432/coffee_shop_rysw
+      - key: SPRING_DATASOURCE_USERNAME
+        value: coffee_user
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: raC2QLZCH9OVI3hZ9GdZA9cA7dX3AwBy
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
